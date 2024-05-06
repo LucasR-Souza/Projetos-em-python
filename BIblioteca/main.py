@@ -36,7 +36,8 @@ class biblioteca:
 minha_biblioteca = biblioteca()
 def main():
     while True:
-        escolha_do_menu = input("\n1. Digite 1 para adicionar um livro \n"
+        escolha_do_menu = input("\n--------------------------------------"
+                                "\n1. Digite 1 para adicionar um livro \n"
                                 "2. Digite 2 para remover um livro \n"
                                 "3. Digite 3 para pesquisar um livro \n"
                                 "4. Digite 4 para finalizar o programa:\n")
