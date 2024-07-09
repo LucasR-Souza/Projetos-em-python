@@ -7,6 +7,7 @@ class Cartas:
         self.jogadores = []  # array com lista de jogadores
         self.baralho_jogado = []
         self.ordem_jogadores = []
+        self.ordem_progressiva = True # usado para a carta de reverse
 
     def criar_cartas(self):
 
@@ -96,6 +97,21 @@ class Cartas:
         # Chama a função principal
         self.main()
 
+    def proximo_jogador(self, jogador_da_vez):
+
+        if self.ordem_progressiva == True:
+            if jogador_da_vez < len(self.ordem_jogadores) - 1:
+                jogador_da_vez += 1
+            else:
+                jogador_da_vez = 0
+
+        elif self.ordem_progressiva == False:
+            if jogador_da_vez > 0:
+                jogador_da_vez -= 1
+            else:
+                jogador_da_vez = len(self.ordem_jogadores) - 1
+        return jogador_da_vez
+
 
     def escolher_carta(self, jogador):
         #Exibe as cartas que o jogador possui
@@ -118,29 +134,52 @@ class Cartas:
                 carta_escolhida = cartas[int(escolhida)]
                 if carta_escolhida.get('cor') in [self.baralho_jogado[-1].get('cor'), None] or carta_escolhida.get('nome') == \
                         self.baralho_jogado[-1].get('nome'):
-                    print("correct")
+                    print(f"Você jogou a carta: {carta_escolhida}")
                     del cartas[int(escolhida)]
                     return carta_escolhida
                 else:
                     print("Carta errada, tente outra ou compre uma nova carta!!")
 
 
+    def jogar_carta(self, carta, uno):
+        self.baralho_jogado.append(carta)
+        print(f"{self.baralho_jogado}")
+
+
+    def comprar_carta(self, jogador, quantidade):
+        for i in range(0, quantidade):
+                self.jogadores[jogador]['cartas'].append(self.cartas.pop(random.randint(0, len(self.cartas) - 1)))
+                print(f"Voce compro a carta {self.jogadores[jogador]['cartas'][-1]}!!\n")
+
+
     # Função pricipal que faz o jogo acontecer
     def main(self):
+        if not 'jogador_atual' in locals():
+            jogador_da_vez = 0
         #menu
-        escolha_menu = input("--------------------Menu--------------------"
-              "\nDigite 1 para jogar uma carta do seu baralho"
-              "\nDigite 2 para comprar uma nova carta"
-              "\nDigite 3 para falar Uno"
-              "\n--------------------------------------------"
-              "\n:")
-        if escolha_menu == "1":
-        self.escolher_carta(jogadores[jogador_da_vez])
-        elif escolha_menu == "2":
-        elif escolha_menu == "3":
-        else:
+        while True:
+            escolha_menu = input("--------------------Menu--------------------"
+                                 "\nDigite 1 para jogar uma carta do seu baralho"
+                                 "\nDigite 2 para comprar uma nova carta"
+                                 "\nDigite 3 para falar Uno e jogar uma carta"
+                                 "\n--------------------------------------------"
+                                 "\n:")
+            if escolha_menu == "1":
+                uno = False
+                carta = self.escolher_carta(self.jogadores[jogador_da_vez])
+                self.jogar_carta(carta, uno)
+                #continuar código
+            elif escolha_menu == "2":
+                self.comprar_carta(jogador_da_vez, 1)
+                break
+            elif escolha_menu == "3":
+                uno = True
+                carta = self.escolher_carta(self.jogadores[jogador_da_vez])
+            else:
+                print("Número fora do intervalo. Tente novamente.")
 
-        self.escolher_carta(self.jogadores[0])
+
+        jogador_da_vez = self.proximo_jogador(jogador_da_vez)
 
 
 
