@@ -1,6 +1,5 @@
 import random  # biblioteca para o RNG
 
-
 class Cartas:
     def __init__(self):
         self.cartas = []  # array para o método criar_cartas
@@ -272,15 +271,7 @@ class Cartas:
                     print(f"{i}˚ {jogador["nome"]}")
                     i += 1
                 break
-
-
             self.proximo_jogador()
-
-
-
-
-
-
 
 
 
